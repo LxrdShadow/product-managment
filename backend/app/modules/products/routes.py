@@ -15,3 +15,11 @@ async def create_product(
         return await service.create_product(product)
     except Exception as e:
         raise HTTPException(status.HTTP_500_BAD_REQUEST, {"error": str(e)})
+
+
+@router.get("/", response_model=list[ProductOut])
+async def get_all_products(service: ProductService = Depends(get_product_service)):
+    try:
+        return await service.get_all()
+    except Exception as e:
+        raise HTTPException(status.HTTP_500_BAD_REQUEST, {"error": str(e)})
