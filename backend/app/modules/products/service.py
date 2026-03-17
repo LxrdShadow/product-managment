@@ -27,6 +27,9 @@ class ProductService:
     async def get_all(self) -> list[Product]:
         return await self.repository.get_all()
 
+    async def get_one(self, number: str) -> Product:
+        return await self.repository.get_one(number)
+
     async def delete_product(self, number: str) -> Product:
         product = await self.repository.get_one(number)
         if not product:
