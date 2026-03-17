@@ -23,3 +23,6 @@ class ProductService:
         }
 
         return await self.repository.insert(data)
+
+    async def get_all(self) -> list[Product]:
+        return await self.repository.get_all()
