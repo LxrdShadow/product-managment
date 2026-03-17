@@ -1,3 +1,4 @@
+from app.modules.products.exceptions import ProductNotFound
 from app.modules.products.models import Product
 from app.modules.products.repository import ProductRepository
 from app.modules.products.schema import ProductCreate
@@ -28,11 +29,14 @@ class ProductService:
         return await self.repository.get_all()
 
     async def get_one(self, number: str) -> Product:
-        return await self.repository.get_one(number)
+        product = await self.repository.get_one(number)
+        if not product:
+            raise ProductNotFound(number)
+        return product
 
     async def delete_product(self, number: str) -> Product:
         product = await self.repository.get_one(number)
         if not product:
-            raise ValueError("Produit introuvable")
+            raise ProductNotFound(number)
 
         return await self.repository.delete(number)
