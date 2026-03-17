@@ -3,8 +3,12 @@ from typing import AsyncGenerator
 
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 
+from core.settings import get_settings
+
+settings = get_settings()
+
 engine = create_async_engine(
-    "localhost:5432",
+    url=settings.DATABASE_URL,
     echo=False,
     future=True,
     pool_pre_ping=True,  # ensures dead connections are revived
