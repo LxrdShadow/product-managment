@@ -8,7 +8,7 @@ class ProductRepository:
     def __init__(self, session: AsyncSession) -> None:
         self.session = session
 
-    async def insert(self, product: Product) -> Product:
+    async def insert(self, product: dict[str, any]) -> Product:
         """Insert a product in the database."""
         stmt = insert(Product).values(product).returning(Product)
         result = await self.session.execute(stmt)

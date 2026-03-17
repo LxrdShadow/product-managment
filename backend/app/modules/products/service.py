@@ -1,4 +1,6 @@
+from app.modules.products.models import Product
 from app.modules.products.repository import ProductRepository
+from app.modules.products.schema import ProductCreate
 
 
 class ProductService:
@@ -11,3 +13,13 @@ class ProductService:
         if not self._repository:
             raise ValueError("Repository not set")
         return self._repository
+
+    async def create_product(self, product: ProductCreate) -> Product:
+        data = {
+            "number": product.number,
+            "design": product.design,
+            "price": product.price,
+            "quantity": product.quantity,
+        }
+
+        return await self.repository.insert(data)
