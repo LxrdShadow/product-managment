@@ -44,5 +44,7 @@ async def delete_product(
 ):
     try:
         return await service.delete_product(number)
+    except ProductNotFound as e:
+        raise HTTPException(status.HTTP_404_NOT_FOUND, {"error": e.message})
     except Exception as e:
-        raise HTTPException(status.HTTP_404_NOT_FOUND, {"error": str(e)})
+        raise HTTPException(status.HTTP_500_INTERNAL_SERVER_ERROR, {"error": str(e)})
