@@ -1,4 +1,4 @@
-from sqlalchemy import insert, select
+from sqlalchemy import delete, insert, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.modules.products.models import Product
@@ -19,3 +19,9 @@ class ProductRepository:
         stmt = select(Product)
         result = await self.session.execute(stmt)
         return result.scalars()
+
+    async def delete(self, number: str) -> Product:
+        """Delete a product from the database"""
+        stmt = delete(Product).where(Product.number == number).returning(Product)
+        result = await self.session.execute(stmt)
+        return result.scalar_one_or_none()
