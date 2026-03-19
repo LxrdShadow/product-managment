@@ -4,7 +4,6 @@ from pydantic import BaseModel
 
 
 class ProductBase(BaseModel):
-    number: str
     design: str
     price: int
     quantity: int
@@ -12,15 +11,12 @@ class ProductBase(BaseModel):
 
 
 class ProductCreate(ProductBase):
-    pass
+    number: str
 
 
 class ProductOut(ProductBase):
+    number: str
+
+
+class ProductUpdate(ProductBase):
     pass
-
-
-class ProductUpdate(BaseModel):
-    design: Optional[str] = None
-    price: Optional[int] = None
-    quantity: Optional[int] = None
-    picture: Optional[str] = None
