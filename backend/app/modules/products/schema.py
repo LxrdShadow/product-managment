@@ -8,6 +8,7 @@ class ProductBase(BaseModel):
     design: str
     price: int
     quantity: int
+    picture: Optional[str] = None
 
 
 class ProductCreate(ProductBase):
