@@ -12,3 +12,4 @@ class Product(Base):
     design: Mapped[str] = mapped_column(String(30), index=True)
     price: Mapped[int] = mapped_column(Integer)
     quantity: Mapped[int] = mapped_column(Integer)
+    picture: Mapped[str] = mapped_column(String, nullable=False)
