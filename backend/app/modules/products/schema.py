@@ -23,3 +23,4 @@ class ProductUpdate(BaseModel):
     design: Optional[str] = None
     price: Optional[int] = None
     quantity: Optional[int] = None
+    picture: Optional[str] = None
