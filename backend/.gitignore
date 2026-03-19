@@ -1,0 +1,29 @@
+# Python
+.Python
+__pycache__
+*.pyc
+*.pyd
+*.pyo
+*.egg-info/
+.env
+.venv
+venv
+env
+
+# Databases
+*.sqlite
+*.db
+
+# OS and editor files
+.DS_Store
+.idea/
+.vscode/
+
+# Build artifacts
+dist/
+build/
+
+# Testing
+.pytest_cache
+
+data/
