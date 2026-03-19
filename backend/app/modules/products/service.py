@@ -63,11 +63,21 @@ class ProductService:
 
         return await self.repository.delete(number)
 
-    async def update_product(self, number: str, product: ProductUpdate) -> Product:
+    async def update_product(self, number: str, product: ProductUpdate, picture: Optional[UploadFile]) -> Product:
         existing = await self.repository.get_one(number)
         if not existing:
             raise ProductNotFound(number)
 
         updates = product.dict(exclude_unset=True)
+        if picture:
+            filename = f"{uuid4()}_{picture.filename}"
+            save_path = Path(settings.UPLOAD_PATH) / filename
+
+            save_path.parent.mkdir(parents=True, exist_ok=True)
+            with open(save_path, "wb") as file:
+                file.write(await picture.read())
+
+            picture_path = f"/uploads/{filename}"
+            updates["picture"] = picture_path
 
         return await self.repository.update(number, **updates)
