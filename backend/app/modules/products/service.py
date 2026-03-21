@@ -52,9 +52,7 @@ class ProductService:
             filename = f"{uuid4()}_{picture.filename}"
             save_path = Path(settings.UPLOAD_PATH) / filename
 
-            save_path.parent.mkdir(parents=True, exist_ok=True)
-            with open(save_path, "wb") as file:
-                file.write(await picture.read())
+            self.storage.save(save_path, picture.read())
 
             picture_path = f"/uploads/{filename}"
             data["picture"] = picture_path
@@ -89,9 +87,7 @@ class ProductService:
             filename = f"{uuid4()}_{picture.filename}"
             save_path = Path(settings.UPLOAD_PATH) / filename
 
-            save_path.parent.mkdir(parents=True, exist_ok=True)
-            with open(save_path, "wb") as file:
-                file.write(await picture.read())
+            self.storage.save(save_path, picture.read())
 
             picture_path = f"/uploads/{filename}"
             updates["picture"] = picture_path
