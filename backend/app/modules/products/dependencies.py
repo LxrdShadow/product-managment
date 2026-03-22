@@ -27,4 +27,4 @@ async def get_product_service(
     repo: ProductRepository = Depends(get_product_repository),
     storage: Storage = Depends(get_cloudinary_storage),
 ) -> ProductService:
-    return ProductService(repo)
+    return ProductService(repo, storage)
