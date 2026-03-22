@@ -15,5 +15,5 @@ cloudinary.config(
 
 class CloudinaryStorage(Storage):
     def save(self, path: str, content: bytes) -> str:
-        result = cloudinary.uploader.upload(content, public_id=path)
+        result = cloudinary.uploader.upload(content, public_id=path, folder="product-management")
         return result.get("public_id")
