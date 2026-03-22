@@ -2,12 +2,13 @@ from pathlib import Path
 from typing import Optional
 from uuid import uuid4
 
+from fastapi import UploadFile
+
 from app.modules.products.exceptions import ProductAlreadyExists, ProductNotFound
 from app.modules.products.models import Product
 from app.modules.products.repository import ProductRepository
 from app.modules.products.schema import ProductCreate, ProductUpdate
 from core.settings import get_settings
-from fastapi import UploadFile
 from upload.storage import Storage
 
 settings = get_settings()
@@ -52,9 +53,9 @@ class ProductService:
             filename = f"{uuid4()}_{picture.filename}"
             save_path = Path(settings.UPLOAD_PATH) / filename
 
-            self.storage.save(save_path, picture.read())
+            id = self.storage.save(save_path, picture.read())
 
-            picture_path = f"/uploads/{filename}"
+            picture_path = f"/uploads/{id}"
             data["picture"] = picture_path
 
         return await self.repository.insert(data)
@@ -87,9 +88,9 @@ class ProductService:
             filename = f"{uuid4()}_{picture.filename}"
             save_path = Path(settings.UPLOAD_PATH) / filename
 
-            self.storage.save(save_path, picture.read())
+            id = self.storage.save(save_path, picture.read())
 
-            picture_path = f"/uploads/{filename}"
+            picture_path = f"/uploads/{id}"
             updates["picture"] = picture_path
 
         return await self.repository.update(number, **updates)
