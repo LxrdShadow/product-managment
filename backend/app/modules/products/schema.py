@@ -24,3 +24,4 @@ class ProductOut(ProductBase):
 class ProductUpdate(ProductBase):
     design: Optional[str] = None
     price: Optional[int] = None
+    quantity: Optional[int] = None
