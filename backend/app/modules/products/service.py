@@ -94,3 +94,6 @@ class ProductService:
             updates["picture"] = picture_path
 
         return await self.repository.update(number, **updates)
+
+    async def get_stat_metrics(self):
+        return await self.repository.get_stats()
