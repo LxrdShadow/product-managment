@@ -42,6 +42,14 @@ async def create_product(
         raise HTTPException(status.HTTP_500_INTERNAL_SERVER_ERROR, {"error": str(e)})
 
 
+@router.get("/stats")
+async def get_stat_metrics(service: ProductService = Depends(get_product_service)):
+    try:
+        return await service.get_stat_metrics()
+    except Exception as e:
+        raise HTTPException(status.HTTP_500_INTERNAL_SERVER_ERROR, {"error": str(e)})
+
+
 @router.get("/", response_model=list[ProductOut])
 async def get_all_products(service: ProductService = Depends(get_product_service)):
     try:

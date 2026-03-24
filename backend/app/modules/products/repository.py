@@ -1,6 +1,6 @@
 from typing import Optional
 
-from sqlalchemy import delete, insert, select, update
+from sqlalchemy import delete, func, insert, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.modules.products.models import Product
@@ -44,3 +44,13 @@ class ProductRepository:
         )
         result = await self.session.execute(stmt)
         return result.scalar_one_or_none()
+
+    async def get_stats(self):
+        """Get the stats (total, min, and max amount) in the database"""
+        stmt = select(
+            func.sum(Product.price * Product.quantity).label("total"),
+            func.max(Product.price * Product.quantity).label("max"),
+            func.min(Product.price * Product.quantity).label("min"),
+        )
+        result = (await self.session.execute(stmt)).one()
+        return {"total": result.total, "max": result.max, "min": result.min}
