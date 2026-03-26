@@ -48,9 +48,15 @@ class ProductRepository:
     async def get_stats(self):
         """Get the stats (total, min, and max amount) in the database"""
         stmt = select(
+            select(func.count()).select_from(Product).label("count"),
             func.sum(Product.price * Product.quantity).label("total"),
             func.max(Product.price * Product.quantity).label("max"),
             func.min(Product.price * Product.quantity).label("min"),
         )
         result = (await self.session.execute(stmt)).one()
-        return {"total": result.total, "max": result.max, "min": result.min}
+        return {
+            "count": result.count,
+            "total": result.total,
+            "max": result.max,
+            "min": result.min,
+        }
