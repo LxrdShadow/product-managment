@@ -6,22 +6,16 @@ from fastapi import (
     File,
     Form,
     HTTPException,
-    Response,
     UploadFile,
     status,
 )
 
-from app.modules.products.dependencies import (
-    get_cloudinary_storage,
-    get_product_service,
-)
+from app.modules.products.dependencies import get_product_service
 from app.modules.products.exceptions import ProductNotFound
 from app.modules.products.schema import ProductCreate, ProductOut, ProductUpdate, Stats
 from app.modules.products.service import ProductService
-from upload.storage import Storage
 
 router = APIRouter(tags=["Products"], prefix="/products")
-image_router = APIRouter(tags=["Images"], prefix="/uploads")
 
 
 @router.post("/", response_model=ProductOut)
@@ -98,10 +92,3 @@ async def update_product(
         raise HTTPException(status.HTTP_404_NOT_FOUND, {"error": e.message})
     except Exception as e:
         raise HTTPException(status.HTTP_500_INTERNAL_SERVER_ERROR, {"error": str(e)})
-
-
-@image_router.get("/{public_id:path}")
-def get_image(public_id: str, storage: Storage = Depends(get_cloudinary_storage)):
-    data, mime = storage.fetch(public_id)
-
-    return Response(content=data, media_type=mime)
