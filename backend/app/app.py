@@ -2,7 +2,7 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 
-from app.modules.products.routes import image_router
+from app.modules.products.image_routes import image_router
 from app.modules.products.routes import router as product_router
 from core.settings import get_settings
 from db import init_db
