@@ -16,7 +16,7 @@ from app.modules.products.dependencies import (
     get_product_service,
 )
 from app.modules.products.exceptions import ProductNotFound
-from app.modules.products.schema import ProductCreate, ProductOut, ProductUpdate
+from app.modules.products.schema import ProductCreate, ProductOut, ProductUpdate, Stats
 from app.modules.products.service import ProductService
 from upload.storage import Storage
 
@@ -42,7 +42,7 @@ async def create_product(
         raise HTTPException(status.HTTP_500_INTERNAL_SERVER_ERROR, {"error": str(e)})
 
 
-@router.get("/stats")
+@router.get("/stats", response_model=Stats)
 async def get_stat_metrics(service: ProductService = Depends(get_product_service)):
     try:
         return await service.get_stat_metrics()
